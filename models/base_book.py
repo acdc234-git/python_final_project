@@ -5,4 +5,13 @@ class Book:
         self.__isbn = isbn
 
     def detail(self):
-        print(f"책 제목: {self.__title}, 저자: {self.author}, ISBN: {self.__isbn}")
+        return f"책 제목: {self.__title}, 저자: {self.__author}, ISBN: {self.__isbn}, "
+
+    def get_title(self):
+        return self.__title
+
+    def get_isbn(self):
+        return self.__isbn
+
+    def get_author(self):
+        return self.__author

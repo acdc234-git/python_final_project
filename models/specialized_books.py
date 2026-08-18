@@ -6,7 +6,7 @@ class Paper_book(Book):
         self.__is_borrow = False #false = 대여 가능, true = 대여 불가
 
     def detail(self):
-        print('[일반 단행본] '+ super().detail())
+        return '[일반 단행본] '+ super().detail() + '대여 여부: ' + ('대여 중' if self.__is_borrow else '대여 가능')
 
     def __str__(self):
         return self.detail()
@@ -17,7 +17,7 @@ class E_book(Book):
         self.__is_borrow = False #false = 대여 가능, true = 대여 불가
 
     def detail(self):
-        print('[전자 도서] '+ super().detail())
+        return '[전자 도서] '+ super().detail() + '대여 여부: ' + ('대여 중' if self.__is_borrow else '대여 가능')
         
     def __str__(self):
             return self.detail()
