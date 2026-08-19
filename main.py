@@ -5,10 +5,10 @@ import utils.helpers as util
 books = {}      # 딕셔너리 구조로 isbn : book 으로 구성하여 유일한 값인 isbn으로 책의 값들을 관리 할 수 있다.
 isbns = set()   # set()을 사용해 isbn을 유일한 값으로 관리한다.
 
-book1 = Paper_book('책1', '저자1', '1111')
+book1 = Paper_book('책1', '저자1', '1111')  # 테스트 데이터
 book2 = Paper_book('책2', '저자2', '2222')
 book3 = E_book('책1', '저자1', '3333')
-book4 = E_book('책2', '저자2', '4444',True)
+book4 = E_book('책2', '저자2', '4444')
 
 books['1111'] = book1
 books['2222'] = book2
@@ -32,8 +32,7 @@ while True:
     elif num == '3':
         util.search_book(books)       
     elif num == '4':
-        #메뉴로 가는 코드 입력 필요
-        print("")        
+        util.borrow(books)        
     elif num == '5':
         break
     else:
