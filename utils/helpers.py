@@ -171,9 +171,18 @@ def book_record(books,record):
             for isbn, count in sorted_count:
                 book = books[isbn]
                 print(f'책 제목: {book.get_title()} | ISBN: {isbn} | 총 대여 횟수: {count}')
-        if menu == '2':
-            pass
-        if menu == '3':
+        elif menu == '2':
+            now = datetime.now()
+            for isbn, time, borrow in record:
+                if borrow == '대여' and time.year == now.year and time.month == now.month:
+                    record_count[isbn] = record_count.get(isbn,0) + 1
+            sorted_count = list(record_count.items())
+            sorted_count.sort(key=lambda x: x[1],reverse=True)
+            for isbn, count in sorted_count:
+                book = books[isbn]
+                print(f'책 제목: {book.get_title()} | ISBN: {isbn} | 월간 대여 횟수: {count}')                   
+
+        elif menu == '3':
             return
 
         
