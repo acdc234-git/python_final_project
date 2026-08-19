@@ -162,28 +162,34 @@ def book_record(books,record):
         print('3. 메인으로')
         record_count = {}
         menu = input()
+        found = False
         if menu == '1':
             for isbn, time, borrow in record:
                 if borrow == '대여':
                     record_count[isbn] = record_count.get(isbn,0) + 1
+                    found = True
             sorted_count = list(record_count.items())
             sorted_count.sort(key=lambda x: x[1],reverse=True)
             for isbn, count in sorted_count:
                 book = books[isbn]
                 print(f'책 제목: {book.get_title()} | ISBN: {isbn} | 총 대여 횟수: {count}')
+            if not found:
+                print("대여 기록이 없습니다")
         elif menu == '2':
             now = datetime.now()
             for isbn, time, borrow in record:
                 if borrow == '대여' and time.year == now.year and time.month == now.month:
                     record_count[isbn] = record_count.get(isbn,0) + 1
+                    found = True
             sorted_count = list(record_count.items())
             sorted_count.sort(key=lambda x: x[1],reverse=True)
             for isbn, count in sorted_count:
                 book = books[isbn]
-                print(f'책 제목: {book.get_title()} | ISBN: {isbn} | 월간 대여 횟수: {count}')                   
-
+                print(f'책 제목: {book.get_title()} | ISBN: {isbn} | 월간 대여 횟수: {count}')        
+            if not found:
+                print('이번달 대여 기록이 없습니다')  
         elif menu == '3':
             return
-
-        
+        else:
+            print('알맞은 번호를 입력해주세요\n')       
                 
