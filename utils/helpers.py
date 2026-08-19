@@ -103,7 +103,7 @@ def deco_line(callback):
 def hello(str):
     print(str)
 
-def borrow(books,statistics):
+def borrow(books,record):
     while True:
         hello('도서 대여/반납 메뉴 입니다')
         print('1. 대여 도서 목록 검색')
@@ -125,7 +125,7 @@ def borrow(books,statistics):
                     book = books[isbn]
                     if book.borrow():
                         print('도서가 대여 되었습니다')
-                        statistics.append(isbn,datetime.now(),'대여')
+                        record.append((isbn,datetime.now(),'대여'))
                         break                    
                     else:
                         print('대여중인 도서 입니다')
@@ -141,7 +141,7 @@ def borrow(books,statistics):
                     book = books[isbn]
                     if book.return_book():
                         print('도서가 반납 되었습니다')
-                        statistics.append((isbn,datetime.now(),'대여'))
+                        record.append((isbn,datetime.now(),'반납'))
                         break
                     else:
                         print('대여중인 도서가 아닙니다')
@@ -154,16 +154,27 @@ def borrow(books,statistics):
         else:
             print('알맞은 번호를 입력해주세요\n')
 
-def book_static(books,statistics):
+def book_record(books,record):
     while True:
         hello('통계 조회 메뉴입니다')
         print('1. 가장 많이 대여된 도서')
         print('2. 월간 대여 통계')
         print('3. 메인으로')
-        count = {}
+        record_count = {}
         menu = input()
-        if menu == 1:
-            for isbn, time, borrow in statistics:
+        if menu == '1':
+            for isbn, time, borrow in record:
                 if borrow == '대여':
-                    count[isbn] = 
-            
+                    record_count[isbn] = record_count.get(isbn,0) + 1
+            sorted_count = list(record_count.items())
+            sorted_count.sort(key=lambda x: x[1],reverse=True)
+            for isbn, count in sorted_count:
+                book = books[isbn]
+                print(f'책 제목: {book.get_title()} | ISBN: {isbn} | 총 대여 횟수: {count}')
+        if menu == '2':
+            pass
+        if menu == '3':
+            return
+
+        
+                
