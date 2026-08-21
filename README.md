@@ -25,42 +25,42 @@
 ### 프로그램 동작 화면
 
 1. 메인 화면
-![alt text](image.png)
+![alt text](image/image.png)
 
 2. 도서 등록
-![alt text](image-1.png)
+![alt text](image/image-1.png)
 
 3. 전체 도서 조회
-![alt text](image-2.png)
+![alt text](image/image-2.png)
 
 4. 도서 조건 검색
 - 책 제목 검색
-![alt text](image-3.png)
+![alt text](image/image-3.png)
 
 - ISBN 검색
-![alt text](image-4.png)
+![alt text](image/image-4.png)
 
 - 저자 검색
-![alt text](image-5.png)
+![alt text](image/image-5.png)
 
 5. 도서 대여/반납
 
 - 도서 대여
-![alt text](image-7.png)
+![alt text](image/image-7.png)
 
 - 도서 반납
-![alt text](image-6.png)
+![alt text](image/image-6.png)
 
 - 대여 상태인 도서 검색
-![alt text](image-8.png)
+![alt text](image/image-8.png)
 
 6. 통계 조회
 
 - 가장 많이 대여된 도서
-![alt text](image-9.png)
+![alt text](image/image-9.png)
 
 - 월간 대여 도서
-![alt text](image-10.png)
+![alt text](image/image-10.png)
 
 ### 데이터 구조
 
