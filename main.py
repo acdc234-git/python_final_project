@@ -1,21 +1,18 @@
 from models.specialized_books import Paper_book, E_book
 #from utils.helpers import register_book, show_book
 import utils.helpers as util
+import pickle
 
-def main():
-    books = {}      # 딕셔너리 구조로 isbn : book 으로 구성하여 유일한 값인 isbn으로 책의 값들을 관리 할 수 있다.
-    isbns = set()   # set()을 사용해 isbn을 유일한 값으로 관리한다.
-    record = []
-
-    book1 = Paper_book('책1', '저자1', '1111')  # 테스트 데이터
-    book2 = Paper_book('책2', '저자2', '2222')
-    book3 = E_book('책1', '저자1', '3333')
-    book4 = E_book('책2', '저자2', '4444')
-    books['1111'] = book1
-    books['2222'] = book2
-    books['3333'] = book3
-    books['4444'] = book4                      
-    isbns = set(books)                          # 테스트 데이터
+def main():    
+    try:
+     with open('libarary.pkl','rb') as fp:
+        libarary_data = pickle.load(fp)
+        books = libarary_data['books']
+        record = libarary_data['record']
+    except FileNotFoundError:
+        books = {} # 딕셔너리 구조로 isbn : book 으로 구성하여 유일한 값인 isbn으로 책의 값들을 관리 할 수 있다.
+        record = []  # 통계 조회를 위한 대여 기록
+    
     while True:
         util.hello('='*3 + '도서 관리 시스템' + '='*3)
         print("1. 도서 등록")
@@ -26,10 +23,10 @@ def main():
         print("6. 종료")
 
         try:
-            num = int(input())
+            num = int(input('메뉴 번호를 입력하세요: '))
 
             if num == 1:
-                util.register_book(books,isbns)     
+                util.register_book(books,record)     
             elif num == 2:
                 util.show_book(books)
             elif num == 3:

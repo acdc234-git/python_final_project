@@ -1,34 +1,31 @@
 from models.specialized_books import Paper_book, E_book
 from datetime import datetime
+import pickle
 
-def register_book(books,isbns):
+def register_book(books,record):
     hello('신규 도서 등록 메뉴 입니다. 각 항목을 입력해주세요')
-    print('책 이름: ')
     while True:
-        title = input().strip()
+        title = input('책 이름: ').strip()
         if not title:
             print("책 이름을 입력해주세요")
         else:
             break
-    print('저자: ')
     while True:
-        author = input().strip()
+        author = input('저자: ').strip()
         if not author:
             print("저자를 입력해주세요")
         else:
             break
-    print('ISBN: ')
     while True:
-        isbn = input().strip()
+        isbn = input('ISBN: ').strip()
         if isbn in books:
             print('중복된 ISBN 입니다.')
         elif not isbn:
             print('ISBN을 입력해주세요')
         else:
             break
-    print('책 타입 (일반 or 전자):')
     while True:
-        type = input().strip()
+        type = input('책 타입 (일반 or 전자):').strip()
         if type in ['일반','전자']:
             if type == '일반':
                 ebook = False
@@ -42,7 +39,7 @@ def register_book(books,isbns):
     else:
         new_book = Paper_book(title,author,isbn)
     books[isbn] = new_book
-    isbns.add(isbn)
+    save_data(books,record)
 
 def show_book(books):
     for book in books.values():
@@ -51,16 +48,15 @@ def show_book(books):
 def search_book(books):
     while True:
         found = False
-        hello('책의 검색 방법을 입력해주세요.')
+        hello('도서 검색 메뉴')
         print('1. 책 제목')
         print('2. ISBN')
         print('3. 저자')
         print('4. 메인으로')
-        search = input()
+        search = input('메뉴 번호를 입력하세요: ')
 
         if search == '1':
-            print('찾는 책의 제목을 입력해주세요.')
-            search = input()
+            search = input('찾는 책의 제목을 입력해주세요: ')
             for book in books.values():
                 if book.get_title() == search:
                     print(book)                     # book 객체기 때문에 __str__ 이 작동
@@ -69,8 +65,7 @@ def search_book(books):
                 print('일치하는 책이 없습니다\n')
 
         elif search == '2':
-            print('찾는 책의 ISBN을 입력해주세요.')
-            search = input()
+            search = input('찾는 책의 ISBN을 입력해주세요: ')
             if search in books:
                 print(books[search])          
                                 
@@ -78,8 +73,7 @@ def search_book(books):
                 print('일치하는 책이 없습니다\n')
 
         elif search == '3':
-            print('찾는 책의 저자를 입력해주세요.')
-            search = input()
+            search = input('찾는 책의 저자를 입력해주세요: ')
             for book in books.values():
                 if book.get_author() == search:
                     print(book)
@@ -110,7 +104,7 @@ def borrow(books,record):
         print('2. 도서 대여')
         print('3. 도서 반납')
         print('4. 메인으로')
-        menu = input()
+        menu = input('메뉴 번호를 입력하세요: ')
 
         if menu == '1':
             for book in books.values():
@@ -119,13 +113,13 @@ def borrow(books,record):
 
         elif menu == '2':
             while True:
-                print('대여할 도서의 ISBN을 입력하세요')
-                isbn = input()
+                isbn = input('대여할 도서의 ISBN을 입력하세요: ')
                 if isbn in books:
                     book = books[isbn]
                     if book.borrow():
                         print('도서가 대여 되었습니다')
                         record.append((isbn,datetime.now(),'대여'))
+                        save_data(books,record)
                         break                    
                     else:
                         print('대여중인 도서 입니다')
@@ -135,13 +129,13 @@ def borrow(books,record):
 
         elif menu == '3':
             while True:
-                print('반납할 도서의 ISBN을 입력하세요')
-                isbn = input()
+                isbn = input('반납할 도서의 ISBN을 입력하세요: ')
                 if isbn in books:
                     book = books[isbn]
                     if book.return_book():
                         print('도서가 반납 되었습니다')
                         record.append((isbn,datetime.now(),'반납'))
+                        save_data(books,record)
                         break
                     else:
                         print('대여중인 도서가 아닙니다')
@@ -161,7 +155,7 @@ def book_record(books,record):
         print('2. 월간 대여 통계')
         print('3. 메인으로')
         record_count = {}
-        menu = input()
+        menu = input('메뉴 번호를 입력하세요: ')
         found = False
         if menu == '1':
             for isbn, time, borrow in record:
@@ -192,4 +186,11 @@ def book_record(books,record):
             return
         else:
             print('알맞은 번호를 입력해주세요\n')       
-                
+
+def save_data(books,record):
+    libarary_data = {
+        'books' : books,
+        'record' : record
+    }
+    with open('libarary.pkl','wb') as fp:
+        pickle.dump(libarary_data,fp)
